@@ -29,14 +29,17 @@
     , lng = event.latLng.lng();
       $.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+lng+'&sensor=false').done(function (data) {
         var result = data.results
-        , state = result[result.length - 1]['address_components'][0];
 
+        , address = result[result.length - 1]
+        , state = address===undefined ? null : address['address_components'][0];
+		if(state)
       $.get('http://ws.audioscrobbler.com/2.0/?method=geo.gettoptracks&country=' + state.long_name + '&api_key=ba875b0b4f7c5081bc0a7553a1f9265c&format=json').done(function (data){
         console.log(data.toptracks.track[0].name);
       
       });
-        console.log(state.long_name, state.short_name);
       });
+
+
 });
 
   }
