@@ -29,9 +29,10 @@
     , lng = event.latLng.lng();
       $.get('http://maps.googleapis.com/maps/api/geocode/json?latlng='+lat+','+lng+'&sensor=false').done(function (data) {
         var result = data.results
-        , state = result[result.length - 1]['address_components'][0];
-
-        console.log(state.long_name, state.short_name);
+        , address = result[result.length - 1]
+        , state = address===undefined ? null : address['address_components'][0];
+		if(state)
+        	console.log(state.long_name, state.short_name);
       });
 });
 
